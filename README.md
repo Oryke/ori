@@ -1,5 +1,9 @@
 # ORI
 
+<p align="center">
+  <img src="./assets/preview.png" alt="ORI Preview" width="900">
+</p>
+
 > The intelligence layer for open source.
 
 ORI is an open-source initiative exploring how repository intelligence can improve the way software communities are built, maintained, and sustained.
