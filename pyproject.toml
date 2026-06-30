@@ -35,6 +35,12 @@ dependencies = [
     "httpx>=0.28.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-mock>=3.14.0",
+]
+
 [project.urls]
 Homepage = "https://github.com/Oryke/ori"
 Repository = "https://github.com/Oryke/ori"
