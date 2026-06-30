@@ -31,7 +31,9 @@ classifiers = [
     "Topic :: Software Development",
 ]
 
-dependencies = []
+dependencies = [
+    "httpx>=0.28.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/Oryke/ori"
