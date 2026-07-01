@@ -3,7 +3,7 @@ Example demonstrating ORI's first repository collection.
 
 Run with:
 
-    python examples/collect_repository.py
+    python example/collect_repository.py
 """
 
 from collector.github import GitHubCollector
