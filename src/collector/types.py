@@ -22,6 +22,6 @@ class RepositoryMetadata:
     owner: str
     url: str
 
-    description: Optional[str] = None
-    default_branch: Optional[str] = None
-    license: Optional[str] = None
+    description: str | None = None
+    default_branch: str | None = None
+    license: str | None = None
