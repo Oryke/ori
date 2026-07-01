@@ -45,3 +45,9 @@ dev = [
 Homepage = "https://github.com/Oryke/ori"
 Repository = "https://github.com/Oryke/ori"
 Issues = "https://github.com/Oryke/ori/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
