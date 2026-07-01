@@ -29,6 +29,7 @@ class GitHubCollector(RepositoryCollector):
             f"{self.GITHUB_API}/{owner}/{repository}",
             headers={
                 "Accept": "application/vnd.github+json",
+                "User-Agent": "ORI",
             },
             timeout=30,
         )
@@ -61,9 +62,11 @@ class GitHubCollector(RepositoryCollector):
 
         parts = parsed.path.strip("/").split("/")
 
-        if len(parts) < 2:
-            raise ValueError("Invalid GitHub repository URL.")
-
+        if len(parts) != 2:
+            raise ValueError(
+                "Expected a GitHub repository URL in the form "
+                "'https://github.com/<owner>/<repository>'."
+            )
         owner = parts[0]
         repository = parts[1]
 
