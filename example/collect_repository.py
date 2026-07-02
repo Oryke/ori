@@ -7,6 +7,7 @@ Run with:
 """
 
 from collector.github import GitHubCollector
+from intelligence.summarizer import RepositorySummarizer
 
 
 def main() -> None:
@@ -16,6 +17,9 @@ def main() -> None:
         "https://github.com/psf/requests"
     )
 
+    summarizer = RepositorySummarizer()
+    summary = summarizer.summarize(repository)
+
     print("\nRepository collected successfully!\n")
 
     print(f"Name: {repository.name}")
@@ -24,6 +28,10 @@ def main() -> None:
     print(f"Default branch: {repository.default_branch}")
     print(f"License: {repository.license}")
     print(f"URL: {repository.url}")
+
+    print("\nSummary")
+    print("-------")
+    print(summary)
 
 
 if __name__ == "__main__":
