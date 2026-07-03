@@ -8,6 +8,7 @@ Run with:
 
 from collector.github import GitHubCollector
 from intelligence.summarizer import RepositorySummarizer
+from intelligence.analyzer import RepositoryAnalyzer
 
 
 def main() -> None:
@@ -17,6 +18,9 @@ def main() -> None:
         "https://github.com/psf/requests"
     )
 
+    analyzer = RepositoryAnalyzer()
+    insights = analyzer.analyze(repository)
+
     summarizer = RepositorySummarizer()
     summary = summarizer.summarize(repository)
 
@@ -24,10 +28,17 @@ def main() -> None:
 
     print(f"Name: {repository.name}")
     print(f"Owner: {repository.owner}")
+    print(f"Language: {repository.language}")
     print(f"Description: {repository.description}")
     print(f"Default branch: {repository.default_branch}")
     print(f"License: {repository.license}")
     print(f"URL: {repository.url}")
+
+    print("\nRepository Analysis")
+    print("-------------------")
+
+    for key, value in insights.items():
+        print(f"{key}: {value}")
 
     print("\nSummary")
     print("-------")

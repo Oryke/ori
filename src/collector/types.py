@@ -25,3 +25,4 @@ class RepositoryMetadata:
     description: str | None = None
     default_branch: str | None = None
     license: str | None = None
+    language: str | None = None

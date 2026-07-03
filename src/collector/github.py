@@ -47,6 +47,7 @@ class GitHubCollector(RepositoryCollector):
             description=data.get("description"),
             default_branch=data.get("default_branch"),
             license=license_info["spdx_id"] if license_info else None,
+            language=data.get("language"),
         )
 
     @staticmethod
