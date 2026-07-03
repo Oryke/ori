@@ -9,6 +9,7 @@ Run with:
 from collector.github import GitHubCollector
 from intelligence.summarizer import RepositorySummarizer
 from intelligence.analyzer import RepositoryAnalyzer
+from intelligence.contributor import ContributorAdvisor
 
 
 def main() -> None:
@@ -18,11 +19,14 @@ def main() -> None:
         "https://github.com/psf/requests"
     )
 
+    summarizer = RepositorySummarizer()
+    summary = summarizer.summarize(repository)
+
     analyzer = RepositoryAnalyzer()
     insights = analyzer.analyze(repository)
 
-    summarizer = RepositorySummarizer()
-    summary = summarizer.summarize(repository)
+    advisor = ContributorAdvisor()
+    advice = advisor.advise(repository)
 
     print("\nRepository collected successfully!\n")
 
@@ -39,6 +43,12 @@ def main() -> None:
 
     for key, value in insights.items():
         print(f"{key}: {value}")
+
+    print("\nContribution Advice")
+    print("-------------------")
+
+    for item in advice:
+        print(f"- {item}")
 
     print("\nSummary")
     print("-------")
