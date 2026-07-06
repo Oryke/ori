@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 import httpx
 
 from .repository import RepositoryCollector
-from .types import RepositoryMetadata
+from .types import RepositoryMetadata, IssueMetadata
 
 
 class GitHubCollector(RepositoryCollector):
@@ -41,14 +41,56 @@ class GitHubCollector(RepositoryCollector):
         license_info = data.get("license")
 
         return RepositoryMetadata(
-            name=data["name"],
-            owner=data["owner"]["login"],
-            url=data["html_url"],
-            description=data.get("description"),
-            default_branch=data.get("default_branch"),
-            license=license_info["spdx_id"] if license_info else None,
-            language=data.get("language"),
+    name=data["name"],
+    owner=data["owner"]["login"],
+    url=data["html_url"],
+    description=data.get("description"),
+    default_branch=data.get("default_branch"),
+    license=license_info["spdx_id"] if license_info else None,
+    language=data.get("language"),
+    stars=data.get("stargazers_count", 0),
+    forks=data.get("forks_count", 0),
+    watchers=data.get("subscribers_count", 0),
+    open_issues=data.get("open_issues_count", 0),
+)
+
+    def collect_issues(self, repository_url: str) -> list[IssueMetadata]:
+        """
+        Collect open issues for a public GitHub repository.
+        """
+
+        owner, repository = self._parse_repository_url(repository_url)
+
+        response = httpx.get(
+            f"{self.GITHUB_API}/{owner}/{repository}/issues",
+            headers={
+                "Accept": "application/vnd.github+json",
+                "User-Agent": "ORI",
+            },
+            timeout=30,
         )
+
+        response.raise_for_status()
+
+        issues = []
+
+        for item in response.json():
+
+            # Skip pull requests
+            if "pull_request" in item:
+                continue
+
+            issues.append(
+                IssueMetadata(
+                    number=item["number"],
+                    title=item["title"],
+                    url=item["html_url"],
+                    labels=[label["name"] for label in item["labels"]],
+                    state=item["state"],
+                )
+            )
+
+        return issues
 
     @staticmethod
     def _parse_repository_url(repository_url: str) -> tuple[str, str]:
@@ -68,6 +110,7 @@ class GitHubCollector(RepositoryCollector):
                 "Expected a GitHub repository URL in the form "
                 "'https://github.com/<owner>/<repository>'."
             )
+
         owner = parts[0]
         repository = parts[1]
 

@@ -26,3 +26,22 @@ class RepositoryMetadata:
     default_branch: str | None = None
     license: str | None = None
     language: str | None = None
+
+    stars: int = 0
+    forks: int = 0
+    watchers: int = 0
+    open_issues: int = 0
+
+
+@dataclass(slots=True)
+class IssueMetadata:
+    """
+    Basic metadata describing a GitHub issue.
+    """
+
+    number: int
+    title: str
+    url: str
+
+    labels: list[str]
+    state: str
