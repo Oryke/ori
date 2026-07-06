@@ -1,57 +1,41 @@
 # ORI Vision
 
-> Every repository has a story. ORI exists to help preserve it.
+## What is ORI?
 
-## Why ORI Exists
+ORI (Open Repository Intelligence) is an open-source developer intelligence engine that transforms raw repository data into actionable insights for contributors, maintainers, and engineering teams.
 
-Over time, I've realized that open source is about much more than code.
+Rather than simply exposing repository information, ORI interprets repository data to help developers understand where and how they can contribute effectively.
 
-Every repository carries knowledge. Some of it is documented, some of it lives in pull requests and issue discussions, and some of it only exists in the minds of the people who have been there the longest.
+---
 
-As projects grow, that knowledge becomes harder to find. New contributors spend time trying to understand decisions that were made months or years ago. Maintainers answer the same questions repeatedly. Important context slowly disappears as people move on.
+## Mission
 
-ORI started from a simple question:
+Help developers navigate open-source repositories with confidence by transforming repository data into practical intelligence.
 
-> What if repositories could retain and communicate their knowledge just as well as they store their code?
+---
 
-That's the idea behind ORI.
+## Vision
 
-## What We're Building Towards
+Become the intelligence layer that sits above repository hosting platforms such as GitHub, GitLab, and Bitbucket.
 
-ORI is an effort to make repositories easier to understand, easier to maintain, and easier to contribute to.
+ORI should help developers answer questions like:
 
-Rather than focusing only on code, ORI focuses on the knowledge that surrounds it; documentation, discussions, decisions, contributor context, and the history that gives a project meaning.
+- What kind of project is this?
+- What skills do I need?
+- Is this repository beginner friendly?
+- Where should I contribute first?
+- Which issue best matches my experience?
 
-The goal isn't to replace people or automate every decision.
+---
 
-The goal is to make it easier for people to understand the projects they're working on.
+## Core Principle
 
-## Repository Intelligence
+GitHub provides information.
 
-At ORI, we use the term *Repository Intelligence* to describe something that I think has been missing from open source.
+ORI provides intelligence.
 
-Repository Intelligence is the ability of a repository to preserve, organize, and communicate the knowledge that helps people make better decisions.
+## Origin
 
-It's not artificial intelligence.
+ORI was inspired by the idea of navigation.
 
-It's the collective understanding built through documentation, conversations, decisions, and the people who contribute over time.
-
-That's the layer ORI hopes to strengthen.
-
-## Looking Ahead
-
-I don't see ORI as a single tool.
-
-I see it as a collection of ideas, research, and software that all work toward the same goal: helping open source projects become healthier and easier to sustain.
-
-If, one day, maintainers spend less time repeating themselves, contributors find it easier to get started, and projects are able to preserve knowledge long after individual contributors have moved on, then ORI will be moving in the right direction.
-
-## A Principle I'll Keep Coming Back To
-
-Code matters.
-
-People matter just as much.
-
-Healthy repositories are built by communities that can share knowledge, preserve context, and continue growing together.
-
-Everything built under ORI should contribute to that.
+Just as the constellation Orion has guided travelers for centuries, ORI aims to guide developers through the increasingly complex world of open-source software by transforming repository data into clear direction.
