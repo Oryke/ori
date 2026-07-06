@@ -1,14 +1,37 @@
+"""
+Repository contribution advisor.
+
+This module provides simple recommendations for developers
+who want to contribute to a repository.
+"""
+
 from collector.types import RepositoryMetadata
 
 
-class RepositorySummarizer:
-    """Generate a simple natural-language summary of a repository."""
+class ContributorAdvisor:
+    """Provides simple contribution advice."""
 
-    def summarize(self, repository: RepositoryMetadata) -> str:
-        return (
-            f"{repository.owner}/{repository.name} "
-            f"is a GitHub repository whose default branch is "
-            f"'{repository.default_branch}'. "
-            f"It is licensed under {repository.license}. "
-            f"Description: {repository.description}"
-        )
+    def advise(self, repository: RepositoryMetadata) -> list[str]:
+        advice = []
+
+        if repository.language:
+            advice.append(
+                f"Recommended skill: {repository.language}"
+            )
+
+        if repository.license:
+            advice.append(
+                "This repository has an open-source license."
+            )
+
+        if repository.default_branch == "main":
+            advice.append(
+                "Target the 'main' branch when contributing."
+            )
+
+        if repository.description:
+            advice.append(
+                "Start by reading the README and project description."
+            )
+
+        return advice
