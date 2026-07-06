@@ -4,21 +4,11 @@ Repository Documentation Analyzer.
 Analyzes repository documentation collected by ORI.
 """
 
-from intelligence.models import RepositoryDocumentation
-
-# ---------------------------------------------------------------------
-# Documentation Detection Keywords
-# ---------------------------------------------------------------------
-
-INSTALLATION_KEYWORDS = (
-    "installation",
-    "install",
-    "pip install",
-    "poetry install",
-    "conda install",
-    "npm install",
-    "cargo install",
+from intelligence.constants import (
+    INSTALLATION_KEYWORDS,
+    USAGE_KEYWORDS,
 )
+from intelligence.models import RepositoryDocumentation
 
 
 class DocumentationAnalyzer:
@@ -35,15 +25,10 @@ class DocumentationAnalyzer:
 
         has_readme = bool(readme.strip())
 
-        has_installation = any(
-            keyword in normalized
-            for keyword in INSTALLATION_KEYWORDS
-        )
-
         return RepositoryDocumentation(
             has_readme=has_readme,
-            has_installation=has_installation,
-            has_usage_examples=False,
+            has_installation=self._has_installation(normalized),
+            has_usage_examples=self._has_usage_examples(normalized),
             has_contributing_guide=False,
             has_api_documentation=False,
             has_license_section=False,
@@ -53,4 +38,26 @@ class DocumentationAnalyzer:
                 "Additional documentation intelligence "
                 "will be introduced in future releases."
             ),
+        )
+
+    def _has_installation(self, normalized: str) -> bool:
+        """
+        Determine whether the repository provides
+        installation instructions.
+        """
+
+        return any(
+            keyword in normalized
+            for keyword in INSTALLATION_KEYWORDS
+        )
+
+    def _has_usage_examples(self, normalized: str) -> bool:
+        """
+        Determine whether the repository provides
+        usage examples.
+        """
+
+        return any(
+            keyword in normalized
+            for keyword in USAGE_KEYWORDS
         )
