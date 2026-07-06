@@ -5,16 +5,17 @@ This module provides the first concrete implementation of the
 RepositoryCollector interface for GitHub repositories.
 """
 
+import base64
 from urllib.parse import urlparse
 
 import httpx
 
 from .repository import RepositoryCollector
-from .types import RepositoryMetadata, IssueMetadata
+from .types import IssueMetadata, RepositoryMetadata
 
 
 class GitHubCollector(RepositoryCollector):
-    """Collects basic metadata from public GitHub repositories."""
+    """Collects information from public GitHub repositories."""
 
     GITHUB_API = "https://api.github.com/repos"
 
@@ -41,18 +42,18 @@ class GitHubCollector(RepositoryCollector):
         license_info = data.get("license")
 
         return RepositoryMetadata(
-    name=data["name"],
-    owner=data["owner"]["login"],
-    url=data["html_url"],
-    description=data.get("description"),
-    default_branch=data.get("default_branch"),
-    license=license_info["spdx_id"] if license_info else None,
-    language=data.get("language"),
-    stars=data.get("stargazers_count", 0),
-    forks=data.get("forks_count", 0),
-    watchers=data.get("subscribers_count", 0),
-    open_issues=data.get("open_issues_count", 0),
-)
+            name=data["name"],
+            owner=data["owner"]["login"],
+            url=data["html_url"],
+            description=data.get("description"),
+            default_branch=data.get("default_branch"),
+            license=license_info["spdx_id"] if license_info else None,
+            language=data.get("language"),
+            stars=data.get("stargazers_count", 0),
+            forks=data.get("forks_count", 0),
+            watchers=data.get("subscribers_count", 0),
+            open_issues=data.get("open_issues_count", 0),
+        )
 
     def collect_issues(self, repository_url: str) -> list[IssueMetadata]:
         """
@@ -76,7 +77,7 @@ class GitHubCollector(RepositoryCollector):
 
         for item in response.json():
 
-            # Skip pull requests
+            # Skip pull requests.
             if "pull_request" in item:
                 continue
 
@@ -92,6 +93,33 @@ class GitHubCollector(RepositoryCollector):
 
         return issues
 
+    def collect_readme(self, repository_url: str) -> str:
+        """
+        Collect the repository README as plain text.
+        """
+
+        owner, repository = self._parse_repository_url(repository_url)
+
+        response = httpx.get(
+            f"{self.GITHUB_API}/{owner}/{repository}/readme",
+            headers={
+                "Accept": "application/vnd.github+json",
+                "User-Agent": "ORI",
+            },
+            timeout=30,
+        )
+
+        response.raise_for_status()
+
+        data = response.json()
+
+        content = data.get("content", "")
+
+        if not content:
+            return ""
+
+        return base64.b64decode(content).decode("utf-8")
+
     @staticmethod
     def _parse_repository_url(repository_url: str) -> tuple[str, str]:
         """
@@ -101,7 +129,9 @@ class GitHubCollector(RepositoryCollector):
         parsed = urlparse(repository_url)
 
         if parsed.netloc != "github.com":
-            raise ValueError("Only GitHub repositories are currently supported.")
+            raise ValueError(
+                "Only GitHub repositories are currently supported."
+            )
 
         parts = parsed.path.strip("/").split("/")
 

@@ -4,9 +4,11 @@ ORI Command Line Interface.
 The primary entry point into ORI.
 """
 
+from collector.documentation import DocumentationCollector
 from collector.github import GitHubCollector
 from intelligence.analyzer import RepositoryAnalyzer
 from intelligence.contributor import ContributorAdvisor
+from intelligence.documentation import DocumentationAnalyzer
 from intelligence.health import RepositoryHealthEngine
 from intelligence.summarizer import RepositorySummarizer
 
@@ -15,9 +17,11 @@ def main() -> None:
     url = input("Repository URL: ")
 
     collector = GitHubCollector()
+    documentation_collector = DocumentationCollector()
 
     repository = collector.collect(url)
     issues = collector.collect_issues(url)
+    readme = documentation_collector.collect_readme(url)
 
     analyzer = RepositoryAnalyzer()
     insights = analyzer.analyze(repository)
@@ -27,6 +31,9 @@ def main() -> None:
 
     health_engine = RepositoryHealthEngine()
     health = health_engine.evaluate(repository)
+
+    documentation_analyzer = DocumentationAnalyzer()
+    documentation = documentation_analyzer.analyze(readme)
 
     summarizer = RepositorySummarizer()
     summary = summarizer.summarize(repository)
@@ -89,6 +96,19 @@ def main() -> None:
         print("  Reasons:")
         for reason in health.governance.reasons:
             print(f"    • {reason}")
+
+    print("\nDocumentation")
+    print("-------------")
+    print(f"README: {'Yes' if documentation.has_readme else 'No'}")
+    print(f"Installation Guide: {'Yes' if documentation.has_installation else 'No'}")
+    print(f"Usage Examples: {'Yes' if documentation.has_usage_examples else 'No'}")
+    print(f"Contributing Guide: {'Yes' if documentation.has_contributing_guide else 'No'}")
+    print(f"API Documentation: {'Yes' if documentation.has_api_documentation else 'No'}")
+    print(f"License Section: {'Yes' if documentation.has_license_section else 'No'}")
+    print(f"Beginner Friendly: {'Yes' if documentation.beginner_friendly else 'No'}")
+
+    print("\nSummary")
+    print(f"  {documentation.summary}")
 
     print("\nInsights")
     print("--------")
