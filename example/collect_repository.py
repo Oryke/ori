@@ -3,7 +3,7 @@ Example demonstrating ORI's first repository collection.
 
 Run with:
 
-    python example/collect_repository.py
+    python -m example.collect_repository
 """
 
 from collector.github import GitHubCollector
@@ -16,6 +16,10 @@ def main() -> None:
     collector = GitHubCollector()
 
     repository = collector.collect(
+        "https://github.com/psf/requests"
+    )
+
+    issues = collector.collect_issues(
         "https://github.com/psf/requests"
     )
 
@@ -49,6 +53,12 @@ def main() -> None:
 
     for item in advice:
         print(f"- {item}")
+
+    print("\nOpen Issues")
+    print("-----------")
+
+    for issue in issues[:5]:
+        print(f"#{issue.number} - {issue.title}")
 
     print("\nSummary")
     print("-------")
