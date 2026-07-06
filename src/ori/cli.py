@@ -25,8 +25,8 @@ def main() -> None:
     advisor = ContributorAdvisor()
     advice = advisor.advise(repository)
 
-    health = RepositoryHealthEngine()
-    assessment = health.assess(repository)
+    health_engine = RepositoryHealthEngine()
+    health = health_engine.evaluate(repository)
 
     summarizer = RepositorySummarizer()
     summary = summarizer.summarize(repository)
@@ -54,11 +54,44 @@ def main() -> None:
     print("\nRepository Health")
     print("-----------------")
 
-    for key, value in assessment.items():
-        print(f"- {key}: {value}")
+    print("\nOverall")
+    print(f"  Score : {health.overall_score}/100")
+    print(f"  Rating: {health.overall_rating}")
+
+    if health.overall_reasons:
+        print("  Reasons:")
+        for reason in health.overall_reasons:
+            print(f"    • {reason}")
+
+    print("\nCommunity")
+    print(f"  Score : {health.community.score}/100")
+    print(f"  Rating: {health.community.rating}")
+
+    if health.community.reasons:
+        print("  Reasons:")
+        for reason in health.community.reasons:
+            print(f"    • {reason}")
+
+    print("\nMaintenance")
+    print(f"  Score : {health.maintenance.score}/100")
+    print(f"  Rating: {health.maintenance.rating}")
+
+    if health.maintenance.reasons:
+        print("  Reasons:")
+        for reason in health.maintenance.reasons:
+            print(f"    • {reason}")
+
+    print("\nGovernance")
+    print(f"  Score : {health.governance.score}/100")
+    print(f"  Rating: {health.governance.rating}")
+
+    if health.governance.reasons:
+        print("  Reasons:")
+        for reason in health.governance.reasons:
+            print(f"    • {reason}")
 
     print("\nInsights")
-    print("----------")
+    print("--------")
 
     for key, value in insights.items():
         print(f"- {key}: {value}")
