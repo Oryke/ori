@@ -11,12 +11,45 @@ from intelligence.constants import (
 from intelligence.models import RepositoryDocumentation
 
 
+CONTRIBUTING_KEYWORDS = (
+    "contributing",
+    "how to contribute",
+    "contribution guide",
+)
+
+API_KEYWORDS = (
+    "api",
+    "reference",
+    "api reference",
+    "rest api",
+    "graphql",
+)
+
+LICENSE_KEYWORDS = (
+    "license",
+    "licensed under",
+    "copyright",
+)
+
+BEGINNER_KEYWORDS = (
+    "good first issue",
+    "beginner",
+    "first contribution",
+    "first issue",
+    "help wanted",
+    "easy",
+)
+
+
 class DocumentationAnalyzer:
     """
     Analyzes repository documentation.
     """
 
-    def analyze(self, readme: str) -> RepositoryDocumentation:
+    def analyze(
+        self,
+        readme: str,
+    ) -> RepositoryDocumentation:
         """
         Analyze a repository README.
         """
@@ -25,39 +58,87 @@ class DocumentationAnalyzer:
 
         has_readme = bool(readme.strip())
 
+        has_installation = self._contains_any(
+            normalized,
+            INSTALLATION_KEYWORDS,
+        )
+
+        has_usage_examples = self._contains_any(
+            normalized,
+            USAGE_KEYWORDS,
+        )
+
+        has_contributing_guide = self._contains_any(
+            normalized,
+            CONTRIBUTING_KEYWORDS,
+        )
+
+        has_api_documentation = self._contains_any(
+            normalized,
+            API_KEYWORDS,
+        )
+
+        has_license_section = self._contains_any(
+            normalized,
+            LICENSE_KEYWORDS,
+        )
+
+        beginner_friendly = self._contains_any(
+            normalized,
+            BEGINNER_KEYWORDS,
+        )
+
+        score = sum(
+            [
+                has_readme,
+                has_installation,
+                has_usage_examples,
+                has_contributing_guide,
+                has_api_documentation,
+                has_license_section,
+                beginner_friendly,
+            ]
+        )
+
+        if score >= 6:
+            summary = (
+                "Excellent documentation with comprehensive "
+                "onboarding information."
+            )
+        elif score >= 4:
+            summary = (
+                "Good documentation covering most contributor needs."
+            )
+        elif score >= 2:
+            summary = (
+                "Basic documentation is available but could be improved."
+            )
+        else:
+            summary = (
+                "Documentation is minimal and may make onboarding difficult."
+            )
+
         return RepositoryDocumentation(
             has_readme=has_readme,
-            has_installation=self._has_installation(normalized),
-            has_usage_examples=self._has_usage_examples(normalized),
-            has_contributing_guide=False,
-            has_api_documentation=False,
-            has_license_section=False,
-            beginner_friendly=False,
-            summary=(
-                "Repository documentation analyzed. "
-                "Additional documentation intelligence "
-                "will be introduced in future releases."
-            ),
+            has_installation=has_installation,
+            has_usage_examples=has_usage_examples,
+            has_contributing_guide=has_contributing_guide,
+            has_api_documentation=has_api_documentation,
+            has_license_section=has_license_section,
+            beginner_friendly=beginner_friendly,
+            summary=summary,
         )
 
-    def _has_installation(self, normalized: str) -> bool:
+    def _contains_any(
+        self,
+        text: str,
+        keywords: tuple[str, ...] | list[str],
+    ) -> bool:
         """
-        Determine whether the repository provides
-        installation instructions.
+        Determine whether any keyword exists in the text.
         """
 
         return any(
-            keyword in normalized
-            for keyword in INSTALLATION_KEYWORDS
-        )
-
-    def _has_usage_examples(self, normalized: str) -> bool:
-        """
-        Determine whether the repository provides
-        usage examples.
-        """
-
-        return any(
-            keyword in normalized
-            for keyword in USAGE_KEYWORDS
+            keyword in text
+            for keyword in keywords
         )

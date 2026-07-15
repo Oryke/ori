@@ -5,7 +5,10 @@ Evaluates the overall health of a repository using
 repository intelligence signals.
 """
 
+from datetime import UTC, datetime
+
 from collector.types import RepositoryMetadata
+from intelligence.governance import GovernanceAnalyzer
 from intelligence.models import HealthDimension, RepositoryHealth
 
 # ---------------------------------------------------------------------
@@ -33,11 +36,28 @@ WATCHER_THRESHOLDS: list[tuple[int, int]] = [
     (5, 5),
 ]
 
+# ---------------------------------------------------------------------
+# Maintenance Scoring Configuration
+# ---------------------------------------------------------------------
+
+RECENT_PUSH_DAYS = 30
+ACTIVE_PUSH_DAYS = 90
+
+RECENT_PUSH_SCORE = 50
+ACTIVE_PUSH_SCORE = 35
+STALE_PUSH_SCORE = 15
+
+ACTIVE_REPOSITORY_SCORE = 50
+ARCHIVED_REPOSITORY_SCORE = 0
+
 
 class RepositoryHealthEngine:
     """Evaluates the health of a repository."""
 
-    def evaluate(self, repository: RepositoryMetadata) -> RepositoryHealth:
+    def evaluate(
+        self,
+        repository: RepositoryMetadata,
+    ) -> RepositoryHealth:
         """Return ORI's overall health evaluation."""
 
         community = self._evaluate_community(repository)
@@ -54,7 +74,10 @@ class RepositoryHealthEngine:
             overall_score=overall_score,
             overall_rating=self._rating_for_score(overall_score),
             overall_reasons=[
-                "Overall health is derived from community, maintenance, and governance signals.",
+                (
+                    "Overall health is derived from community, "
+                    "maintenance, and governance signals."
+                )
             ],
             community=community,
             maintenance=maintenance,
@@ -77,6 +100,10 @@ class RepositoryHealthEngine:
                 return points
 
         return 0
+
+    # -----------------------------------------------------------------
+    # Community
+    # -----------------------------------------------------------------
 
     def _evaluate_community(
         self,
@@ -144,35 +171,110 @@ class RepositoryHealthEngine:
             reasons=reasons,
         )
 
+    # -----------------------------------------------------------------
+    # Maintenance
+    # -----------------------------------------------------------------
+
     def _evaluate_maintenance(
         self,
         repository: RepositoryMetadata,
     ) -> HealthDimension:
         """Evaluate repository maintenance health."""
 
-        return HealthDimension(
-            score=100,
-            rating="★★★★★ Excellent",
-            reasons=[
-                "Maintenance evaluation has not been implemented yet.",
-            ],
+        score = 0
+        reasons: list[str] = []
+
+        if repository.archived:
+            reasons.append(
+                "Repository has been archived."
+            )
+
+            return HealthDimension(
+                score=ARCHIVED_REPOSITORY_SCORE,
+                rating=self._rating_for_score(
+                    ARCHIVED_REPOSITORY_SCORE
+                ),
+                reasons=reasons,
+            )
+
+        score += ACTIVE_REPOSITORY_SCORE
+
+        reasons.append(
+            "Repository is actively maintained."
         )
+
+        if repository.last_push:
+
+            pushed = datetime.fromisoformat(
+                repository.last_push.replace(
+                    "Z",
+                    "+00:00",
+                )
+            )
+
+            today = datetime.now(UTC)
+
+            days_since_push = (
+                today - pushed
+            ).days
+
+            if days_since_push <= RECENT_PUSH_DAYS:
+
+                score += RECENT_PUSH_SCORE
+
+                reasons.append(
+                    f"Latest code was pushed {days_since_push} day(s) ago."
+                )
+
+            elif days_since_push <= ACTIVE_PUSH_DAYS:
+
+                score += ACTIVE_PUSH_SCORE
+
+                reasons.append(
+                    f"Repository was updated {days_since_push} day(s) ago."
+                )
+
+            else:
+
+                score += STALE_PUSH_SCORE
+
+                reasons.append(
+                    (
+                        "No recent code activity "
+                        f"({days_since_push} days)."
+                    )
+                )
+
+        return HealthDimension(
+            score=score,
+            rating=self._rating_for_score(score),
+            reasons=reasons,
+        )
+
+    # -----------------------------------------------------------------
+    # Governance
+    # -----------------------------------------------------------------
 
     def _evaluate_governance(
         self,
         repository: RepositoryMetadata,
     ) -> HealthDimension:
-        """Evaluate repository governance health."""
+        """
+        Evaluate repository governance health.
+        """
 
-        return HealthDimension(
-            score=100,
-            rating="★★★★★ Excellent",
-            reasons=[
-                "Governance evaluation has not been implemented yet.",
-            ],
-        )
+        analyzer = GovernanceAnalyzer()
 
-    def _rating_for_score(self, score: int) -> str:
+        return analyzer.evaluate(repository)
+
+    # -----------------------------------------------------------------
+    # Helpers
+    # -----------------------------------------------------------------
+
+    def _rating_for_score(
+        self,
+        score: int,
+    ) -> str:
         """Return a rating for a health score."""
 
         if score >= 80:
