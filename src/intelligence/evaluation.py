@@ -5,7 +5,12 @@ Combines all repository intelligence signals
 into a final repository assessment.
 """
 
-from intelligence.models import RepositoryEvaluation
+from datetime import UTC, datetime
+
+from intelligence.models import (
+    AnalysisMetadata,
+    RepositoryEvaluation,
+)
 
 
 class RepositoryEvaluator:
@@ -29,6 +34,7 @@ class RepositoryEvaluator:
         strengths: list[str] = []
         weaknesses: list[str] = []
         recommended_for: list[str] = []
+        insights: list[str] = []
 
         score = 0
 
@@ -44,10 +50,15 @@ class RepositoryEvaluator:
                 strengths.append(
                     "Repository demonstrates strong overall health."
                 )
+                insights.append(
+                    "Repository shows strong community, maintenance, and governance signals."
+                )
+                
             else:
                 weaknesses.append(
                     "Repository health signals require attention."
                 )
+
 
         # ------------------------------------------------------------
         # Documentation (20 points)
@@ -97,6 +108,9 @@ class RepositoryEvaluator:
                     "Repository has no contribution guide."
                 )
 
+                insights.append(
+                     "Missing contributor documentation may increase onboarding difficulty."
+                )
             score += documentation_score
 
         # ------------------------------------------------------------
@@ -196,19 +210,44 @@ class RepositoryEvaluator:
 
         if score >= 90:
             rating = "★★★★★ Excellent"
+
         elif score >= 75:
             rating = "★★★★☆ Good"
+
         elif score >= 60:
             rating = "★★★☆☆ Fair"
+
         else:
             rating = "★★☆☆☆ Needs Improvement"
+
+
+        confidence = 80
+
+        if health:
+            confidence += 5
+
+        if documentation and documentation.has_readme:
+            confidence += 5
+
+        confidence = min(confidence, 100)
+
 
         return RepositoryEvaluation(
             overall_score=score,
             overall_rating=rating,
+
+            metadata=AnalysisMetadata(
+                generated_at=datetime.now(UTC).isoformat(),
+                analyzer_version="0.1.0",
+            ),
+
+            confidence=confidence,
+
             strengths=strengths,
             weaknesses=weaknesses,
             recommended_for=recommended_for,
+            insights=insights,
+
             health=health,
             documentation=documentation,
             risk=risk,
