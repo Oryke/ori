@@ -9,6 +9,21 @@ from dataclasses import dataclass, field
 
 
 # ---------------------------------------------------------------------
+# Analysis Metadata
+# ---------------------------------------------------------------------
+
+@dataclass(slots=True)
+class AnalysisMetadata:
+    """
+    Metadata about an ORI analysis run.
+    """
+
+    generated_at: str = ""
+
+    analyzer_version: str = "0.1.0"
+
+
+# ---------------------------------------------------------------------
 # Repository Health
 # ---------------------------------------------------------------------
 
@@ -30,11 +45,17 @@ class RepositoryHealth:
     """
 
     overall_score: int
+
     overall_rating: str
-    overall_reasons: list[str] = field(default_factory=list)
+
+    overall_reasons: list[str] = field(
+        default_factory=list
+    )
 
     community: HealthDimension | None = None
+
     maintenance: HealthDimension | None = None
+
     governance: HealthDimension | None = None
 
 
@@ -193,6 +214,12 @@ class RepositoryEvaluation:
 
     overall_rating: str
 
+    metadata: AnalysisMetadata = field(
+        default_factory=AnalysisMetadata
+    )
+
+    confidence: int = 0
+
     strengths: list[str] = field(
         default_factory=list
     )
@@ -202,6 +229,10 @@ class RepositoryEvaluation:
     )
 
     recommended_for: list[str] = field(
+        default_factory=list
+    )
+
+    insights: list[str] = field(
         default_factory=list
     )
 
