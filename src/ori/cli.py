@@ -103,6 +103,7 @@ def analyze_repository(url: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
+        prog="ori",
         description="ORI - Repository Intelligence Engine"
     )
 
