@@ -33,16 +33,13 @@ class RoadmapAnalyzer:
 
         reasons: list[str] = []
 
-
         # ------------------------------------------------------------
         # Determine contributor stage
         # ------------------------------------------------------------
 
         experience = developer_fit.experience_level
 
-
         if "Beginner" in experience:
-
             current_stage = "Beginner Contributor"
 
             recommended_focus = (
@@ -50,7 +47,6 @@ class RoadmapAnalyzer:
                 "understand contribution workflows, "
                 "and start with low-risk improvements."
             )
-
 
             next_steps.extend(
                 [
@@ -61,7 +57,6 @@ class RoadmapAnalyzer:
                 ]
             )
 
-
             contribution_opportunities.extend(
                 [
                     "Documentation improvements",
@@ -71,9 +66,7 @@ class RoadmapAnalyzer:
                 ]
             )
 
-
         elif "Intermediate" in experience:
-
             current_stage = "Intermediate Contributor"
 
             recommended_focus = (
@@ -81,7 +74,6 @@ class RoadmapAnalyzer:
                 "improve existing features, "
                 "and collaborate with maintainers."
             )
-
 
             next_steps.extend(
                 [
@@ -92,7 +84,6 @@ class RoadmapAnalyzer:
                 ]
             )
 
-
             contribution_opportunities.extend(
                 [
                     "Bug fixes",
@@ -102,9 +93,7 @@ class RoadmapAnalyzer:
                 ]
             )
 
-
         else:
-
             current_stage = "Advanced Contributor"
 
             recommended_focus = (
@@ -112,7 +101,6 @@ class RoadmapAnalyzer:
                 "architecture discussions, "
                 "and major contributions."
             )
-
 
             next_steps.extend(
                 [
@@ -123,7 +111,6 @@ class RoadmapAnalyzer:
                 ]
             )
 
-
             contribution_opportunities.extend(
                 [
                     "Major feature development",
@@ -133,29 +120,22 @@ class RoadmapAnalyzer:
                 ]
             )
 
-
-
         # ------------------------------------------------------------
         # Documentation Intelligence
         # ------------------------------------------------------------
 
         if documentation.has_readme:
-
             reasons.append(
                 "Repository documentation provides an entry point for contributors."
             )
 
         else:
-
             next_steps.insert(
                 0,
-                "Create or improve repository documentation before contributing code."
+                "Create or improve repository documentation before contributing code.",
             )
 
-
-
         if not documentation.has_contributing_guide:
-
             reasons.append(
                 "Missing contribution guidelines increase onboarding difficulty."
             )
@@ -164,84 +144,59 @@ class RoadmapAnalyzer:
                 "Review existing pull requests to understand contribution standards."
             )
 
-
-
         # ------------------------------------------------------------
         # Health Intelligence
         # ------------------------------------------------------------
 
         if health.overall_score >= 80:
-
             reasons.append(
                 "Strong repository health suggests an active contribution environment."
             )
 
         else:
-
             next_steps.append(
                 "Review repository maintenance activity before making major contributions."
             )
-
-
 
         # ------------------------------------------------------------
         # Risk Intelligence
         # ------------------------------------------------------------
 
         if risk.level == "LOW":
-
             reasons.append(
                 "Low repository risk indicates a stable project to contribute to."
             )
 
         else:
-
             next_steps.append(
                 "Review repository risks before investing significant contribution effort."
             )
-
-
 
         # ------------------------------------------------------------
         # Skill Intelligence
         # ------------------------------------------------------------
 
         if skills.required_skills:
-
             next_steps.append(
                 "Build confidence with required skills: "
                 + ", ".join(skills.required_skills[:3])
             )
-
 
         # ------------------------------------------------------------
         # Adoption Intelligence
         # ------------------------------------------------------------
 
         if repository.stars >= 10000:
-
             reasons.append(
                 "High community adoption indicates established project practices."
             )
 
-            contribution_opportunities.append(
-                "Community participation"
-            )
-
-
+            contribution_opportunities.append("Community participation")
 
         return ContributorRoadmap(
-
             current_stage=current_stage,
-
             recommended_focus=recommended_focus,
-
             next_steps=next_steps,
-
-            contribution_opportunities=(
-                contribution_opportunities
-            ),
-
+            contribution_opportunities=(contribution_opportunities),
             reasons=reasons,
-
         )

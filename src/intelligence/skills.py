@@ -119,9 +119,7 @@ class SkillAnalyzer:
         ]
 
         if frameworks:
-            reasons.append(
-                "Detected common frameworks from repository documentation."
-            )
+            reasons.append("Detected common frameworks from repository documentation.")
 
         return SkillProfile(
             primary_language=language,

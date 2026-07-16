@@ -32,9 +32,7 @@ class RecommendationEngine:
             )
 
         if not repository.has_contributing_guide:
-            recommendations.append(
-                "Add a CONTRIBUTING.md guide for new contributors."
-            )
+            recommendations.append("Add a CONTRIBUTING.md guide for new contributors.")
 
         if not repository.has_code_of_conduct:
             recommendations.append(

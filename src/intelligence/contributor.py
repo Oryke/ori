@@ -15,23 +15,15 @@ class ContributorAdvisor:
         advice = []
 
         if repository.language:
-            advice.append(
-                f"Recommended skill: {repository.language}"
-            )
+            advice.append(f"Recommended skill: {repository.language}")
 
         if repository.license:
-            advice.append(
-                "This repository has an open-source license."
-            )
+            advice.append("This repository has an open-source license.")
 
         if repository.default_branch == "main":
-            advice.append(
-                "Target the 'main' branch when contributing."
-            )
+            advice.append("Target the 'main' branch when contributing.")
 
         if repository.description:
-            advice.append(
-                "Start by reading the README and project description."
-            )
+            advice.append("Start by reading the README and project description.")
 
         return advice

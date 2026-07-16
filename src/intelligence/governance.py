@@ -43,13 +43,9 @@ class GovernanceAnalyzer:
 
         if repository.license:
             score += LICENSE_SCORE
-            reasons.append(
-                "Open-source license detected."
-            )
+            reasons.append("Open-source license detected.")
         else:
-            reasons.append(
-                "No repository license detected."
-            )
+            reasons.append("No repository license detected.")
 
         # -------------------------------------------------------------
         # Contributing Guide
@@ -57,13 +53,9 @@ class GovernanceAnalyzer:
 
         if repository.has_contributing_guide:
             score += CONTRIBUTING_SCORE
-            reasons.append(
-                "Contribution guide available."
-            )
+            reasons.append("Contribution guide available.")
         else:
-            reasons.append(
-                "No contribution guide found."
-            )
+            reasons.append("No contribution guide found.")
 
         # -------------------------------------------------------------
         # Code of Conduct
@@ -71,13 +63,9 @@ class GovernanceAnalyzer:
 
         if repository.has_code_of_conduct:
             score += CODE_OF_CONDUCT_SCORE
-            reasons.append(
-                "Code of Conduct detected."
-            )
+            reasons.append("Code of Conduct detected.")
         else:
-            reasons.append(
-                "Code of Conduct is missing."
-            )
+            reasons.append("Code of Conduct is missing.")
 
         # -------------------------------------------------------------
         # Security Policy
@@ -85,13 +73,9 @@ class GovernanceAnalyzer:
 
         if repository.has_security_policy:
             score += SECURITY_POLICY_SCORE
-            reasons.append(
-                "Security policy detected."
-            )
+            reasons.append("Security policy detected.")
         else:
-            reasons.append(
-                "No SECURITY policy found."
-            )
+            reasons.append("No SECURITY policy found.")
 
         # -------------------------------------------------------------
         # Issue Templates
@@ -99,13 +83,9 @@ class GovernanceAnalyzer:
 
         if repository.has_issue_templates:
             score += ISSUE_TEMPLATE_SCORE
-            reasons.append(
-                "Issue templates detected."
-            )
+            reasons.append("Issue templates detected.")
         else:
-            reasons.append(
-                "Issue templates are missing."
-            )
+            reasons.append("Issue templates are missing.")
 
         # -------------------------------------------------------------
         # Pull Request Template
@@ -113,13 +93,9 @@ class GovernanceAnalyzer:
 
         if repository.has_pull_request_template:
             score += PULL_REQUEST_TEMPLATE_SCORE
-            reasons.append(
-                "Pull request template detected."
-            )
+            reasons.append("Pull request template detected.")
         else:
-            reasons.append(
-                "Pull request template is missing."
-            )
+            reasons.append("Pull request template is missing.")
 
         score = min(score, 100)
 

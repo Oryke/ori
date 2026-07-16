@@ -102,21 +102,14 @@ class DocumentationAnalyzer:
 
         if score >= 6:
             summary = (
-                "Excellent documentation with comprehensive "
-                "onboarding information."
+                "Excellent documentation with comprehensive onboarding information."
             )
         elif score >= 4:
-            summary = (
-                "Good documentation covering most contributor needs."
-            )
+            summary = "Good documentation covering most contributor needs."
         elif score >= 2:
-            summary = (
-                "Basic documentation is available but could be improved."
-            )
+            summary = "Basic documentation is available but could be improved."
         else:
-            summary = (
-                "Documentation is minimal and may make onboarding difficult."
-            )
+            summary = "Documentation is minimal and may make onboarding difficult."
 
         return RepositoryDocumentation(
             has_readme=has_readme,
@@ -138,7 +131,4 @@ class DocumentationAnalyzer:
         Determine whether any keyword exists in the text.
         """
 
-        return any(
-            keyword in text
-            for keyword in keywords
-        )
+        return any(keyword in text for keyword in keywords)

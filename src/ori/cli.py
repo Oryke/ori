@@ -4,7 +4,6 @@ ORI Command Line Interface.
 The primary entry point into ORI.
 """
 
-
 from collector.documentation import DocumentationCollector
 from collector.github import GitHubCollector
 
@@ -35,7 +34,6 @@ def main() -> None:
     issues = collector.collect_issues(url)
     readme = documentation_collector.collect_readme(url)
 
-
     # ---------------------------------------------------------------
     # Intelligence Engines
     # ---------------------------------------------------------------
@@ -43,18 +41,14 @@ def main() -> None:
     analyzer = RepositoryAnalyzer()
     insights = analyzer.analyze(repository)
 
-
     advisor = ContributorAdvisor()
     advice = advisor.advise(repository)
-
 
     health_engine = RepositoryHealthEngine()
     health = health_engine.evaluate(repository)
 
-
     documentation_analyzer = DocumentationAnalyzer()
     documentation = documentation_analyzer.analyze(readme)
-
 
     risk_analyzer = RepositoryRiskAnalyzer()
 
@@ -63,14 +57,12 @@ def main() -> None:
         documentation,
     )
 
-
     skill_analyzer = SkillAnalyzer()
-    
+
     skills = skill_analyzer.analyze(
         repository,
         readme,
-)
-
+    )
 
     developer_fit_analyzer = DeveloperFitAnalyzer()
 
@@ -79,7 +71,6 @@ def main() -> None:
         documentation,
         skills,
     )
-
 
     roadmap_analyzer = RoadmapAnalyzer()
 
@@ -92,7 +83,6 @@ def main() -> None:
         developer_fit,
     )
 
-
     evaluator = RepositoryEvaluator()
 
     evaluation = evaluator.evaluate(
@@ -104,11 +94,8 @@ def main() -> None:
         roadmap=roadmap,
     )
 
-
     summarizer = RepositorySummarizer()
     summary = summarizer.summarize(repository)
-
-
 
     report_generator = RepositoryReporter()
 

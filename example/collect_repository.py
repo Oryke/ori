@@ -15,13 +15,9 @@ from intelligence.contributor import ContributorAdvisor
 def main() -> None:
     collector = GitHubCollector()
 
-    repository = collector.collect(
-        "https://github.com/psf/requests"
-    )
+    repository = collector.collect("https://github.com/psf/requests")
 
-    issues = collector.collect_issues(
-        "https://github.com/psf/requests"
-    )
+    issues = collector.collect_issues("https://github.com/psf/requests")
 
     summarizer = RepositorySummarizer()
     summary = summarizer.summarize(repository)

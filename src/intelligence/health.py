@@ -64,11 +64,7 @@ class RepositoryHealthEngine:
         maintenance = self._evaluate_maintenance(repository)
         governance = self._evaluate_governance(repository)
 
-        overall_score = (
-            community.score
-            + maintenance.score
-            + governance.score
-        ) // 3
+        overall_score = (community.score + maintenance.score + governance.score) // 3
 
         return RepositoryHealth(
             overall_score=overall_score,
@@ -126,44 +122,26 @@ class RepositoryHealthEngine:
             WATCHER_THRESHOLDS,
         )
 
-        community_score = (
-            star_score
-            + fork_score
-            + watcher_score
-        )
+        community_score = star_score + fork_score + watcher_score
 
         reasons: list[str] = []
 
         if repository.stars >= 500:
-            reasons.append(
-                "Strong community adoption."
-            )
+            reasons.append("Strong community adoption.")
         elif repository.stars >= 100:
-            reasons.append(
-                "Growing community adoption."
-            )
+            reasons.append("Growing community adoption.")
         else:
-            reasons.append(
-                "Community adoption is still developing."
-            )
+            reasons.append("Community adoption is still developing.")
 
         if repository.forks >= 100:
-            reasons.append(
-                "High contributor interest."
-            )
+            reasons.append("High contributor interest.")
         elif repository.forks >= 20:
-            reasons.append(
-                "Contributors are actively engaging with the project."
-            )
+            reasons.append("Contributors are actively engaging with the project.")
 
         if repository.watchers >= 100:
-            reasons.append(
-                "Strong ongoing community engagement."
-            )
+            reasons.append("Strong ongoing community engagement.")
         elif repository.watchers >= 20:
-            reasons.append(
-                "Community members are following project updates."
-            )
+            reasons.append("Community members are following project updates.")
 
         return HealthDimension(
             score=community_score,
@@ -185,26 +163,19 @@ class RepositoryHealthEngine:
         reasons: list[str] = []
 
         if repository.archived:
-            reasons.append(
-                "Repository has been archived."
-            )
+            reasons.append("Repository has been archived.")
 
             return HealthDimension(
                 score=ARCHIVED_REPOSITORY_SCORE,
-                rating=self._rating_for_score(
-                    ARCHIVED_REPOSITORY_SCORE
-                ),
+                rating=self._rating_for_score(ARCHIVED_REPOSITORY_SCORE),
                 reasons=reasons,
             )
 
         score += ACTIVE_REPOSITORY_SCORE
 
-        reasons.append(
-            "Repository is actively maintained."
-        )
+        reasons.append("Repository is actively maintained.")
 
         if repository.last_push:
-
             pushed = datetime.fromisoformat(
                 repository.last_push.replace(
                     "Z",
@@ -214,36 +185,22 @@ class RepositoryHealthEngine:
 
             today = datetime.now(UTC)
 
-            days_since_push = (
-                today - pushed
-            ).days
+            days_since_push = (today - pushed).days
 
             if days_since_push <= RECENT_PUSH_DAYS:
-
                 score += RECENT_PUSH_SCORE
 
-                reasons.append(
-                    f"Latest code was pushed {days_since_push} day(s) ago."
-                )
+                reasons.append(f"Latest code was pushed {days_since_push} day(s) ago.")
 
             elif days_since_push <= ACTIVE_PUSH_DAYS:
-
                 score += ACTIVE_PUSH_SCORE
 
-                reasons.append(
-                    f"Repository was updated {days_since_push} day(s) ago."
-                )
+                reasons.append(f"Repository was updated {days_since_push} day(s) ago.")
 
             else:
-
                 score += STALE_PUSH_SCORE
 
-                reasons.append(
-                    (
-                        "No recent code activity "
-                        f"({days_since_push} days)."
-                    )
-                )
+                reasons.append((f"No recent code activity ({days_since_push} days)."))
 
         return HealthDimension(
             score=score,

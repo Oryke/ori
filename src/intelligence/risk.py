@@ -40,20 +40,15 @@ class RepositoryRiskAnalyzer:
 
         if repository.archived:
             score -= 35
-            warnings.append(
-                "Repository has been archived."
-            )
+            warnings.append("Repository has been archived.")
         else:
-            reasons.append(
-                "Repository is actively maintained."
-            )
+            reasons.append("Repository is actively maintained.")
 
         # ---------------------------------------------------------
         # Recent Development Activity
         # ---------------------------------------------------------
 
         if repository.last_push:
-
             pushed = datetime.fromisoformat(
                 repository.last_push.replace(
                     "Z",
@@ -61,129 +56,86 @@ class RepositoryRiskAnalyzer:
                 )
             )
 
-            age = (
-                datetime.now(timezone.utc)
-                - pushed
-            ).days
+            age = (datetime.now(timezone.utc) - pushed).days
 
             if age <= 90:
-                reasons.append(
-                    "Recent development activity detected."
-                )
+                reasons.append("Recent development activity detected.")
 
             elif age <= ACTIVE_DAYS:
                 score -= 10
-                warnings.append(
-                    f"Last code update was {age} days ago."
-                )
+                warnings.append(f"Last code update was {age} days ago.")
 
             else:
                 score -= 25
-                warnings.append(
-                    f"Repository appears inactive ({age} days)."
-                )
+                warnings.append(f"Repository appears inactive ({age} days).")
 
         # ---------------------------------------------------------
         # License
         # ---------------------------------------------------------
 
         if repository.license:
-            reasons.append(
-                "Open-source license detected."
-            )
+            reasons.append("Open-source license detected.")
         else:
             score -= 20
-            warnings.append(
-                "Repository does not define a license."
-            )
+            warnings.append("Repository does not define a license.")
 
         # ---------------------------------------------------------
         # Governance
         # ---------------------------------------------------------
 
         if repository.has_security_policy:
-            reasons.append(
-                "Security policy available."
-            )
+            reasons.append("Security policy available.")
         else:
             score -= 10
-            warnings.append(
-                "Missing SECURITY.md."
-            )
+            warnings.append("Missing SECURITY.md.")
 
         if repository.has_code_of_conduct:
-            reasons.append(
-                "Code of Conduct available."
-            )
+            reasons.append("Code of Conduct available.")
         else:
             score -= 5
-            warnings.append(
-                "No Code of Conduct found."
-            )
+            warnings.append("No Code of Conduct found.")
 
         if repository.has_contributing_guide:
-            reasons.append(
-                "Contribution guidelines available."
-            )
+            reasons.append("Contribution guidelines available.")
         else:
             score -= 5
-            warnings.append(
-                "Missing CONTRIBUTING.md."
-            )
+            warnings.append("Missing CONTRIBUTING.md.")
 
         if repository.has_issue_templates:
-            reasons.append(
-                "Issue templates available."
-            )
+            reasons.append("Issue templates available.")
 
         if repository.has_pull_request_template:
-            reasons.append(
-                "Pull request template available."
-            )
+            reasons.append("Pull request template available.")
 
         # ---------------------------------------------------------
         # Documentation
         # ---------------------------------------------------------
 
         if documentation.has_installation:
-            reasons.append(
-                "Installation instructions available."
-            )
+            reasons.append("Installation instructions available.")
         else:
             score -= 5
-            warnings.append(
-                "Installation instructions missing."
-            )
+            warnings.append("Installation instructions missing.")
 
         if documentation.has_usage_examples:
-            reasons.append(
-                "Usage examples available."
-            )
+            reasons.append("Usage examples available.")
         else:
             score -= 5
-            warnings.append(
-                "Usage examples missing."
-            )
+            warnings.append("Usage examples missing.")
 
         if documentation.beginner_friendly:
-            reasons.append(
-                "Beginner-friendly documentation."
-            )
+            reasons.append("Beginner-friendly documentation.")
 
         # ---------------------------------------------------------
         # Community
         # ---------------------------------------------------------
 
         if repository.stars >= 100:
-            reasons.append(
-                "Repository has strong community adoption."
-            )
+            reasons.append("Repository has strong community adoption.")
 
         if repository.open_issues >= HIGH_ISSUE_THRESHOLD:
             score -= 5
-            warnings.append(
-                "Large number of open issues."
-            )
+            warnings.append("Large number of open issues.")
 
         score = max(min(score, 100), 0)
 
@@ -220,25 +172,15 @@ class RepositoryRiskAnalyzer:
     ) -> str:
 
         if score >= 90:
-            return (
-                "Excellent candidate for production adoption."
-            )
+            return "Excellent candidate for production adoption."
 
         if score >= 80:
-            return (
-                "Suitable for production use."
-            )
+            return "Suitable for production use."
 
         if score >= 65:
-            return (
-                "Suitable after normal technical review."
-            )
+            return "Suitable after normal technical review."
 
         if score >= 45:
-            return (
-                "Adopt with caution and perform a detailed review."
-            )
+            return "Adopt with caution and perform a detailed review."
 
-        return (
-            "High adoption risk. Resolve identified issues before use."
-        )
+        return "High adoption risk. Resolve identified issues before use."

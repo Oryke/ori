@@ -48,7 +48,6 @@ class GitHubCollector(RepositoryCollector):
         attempts = 3
 
         for attempt in range(attempts):
-
             try:
                 response = httpx.get(
                     url,
@@ -61,15 +60,12 @@ class GitHubCollector(RepositoryCollector):
                 return response
 
             except httpx.ConnectError:
-
                 if attempt == attempts - 1:
                     raise
 
                 time.sleep(2)
 
-        raise RuntimeError(
-            "Unable to connect to GitHub API."
-        )
+        raise RuntimeError("Unable to connect to GitHub API.")
 
     # ------------------------------------------------------------------
     # Repository
@@ -83,21 +79,15 @@ class GitHubCollector(RepositoryCollector):
         Collect repository metadata from GitHub.
         """
 
-        owner, repository = self._parse_repository_url(
-            repository_url
-        )
+        owner, repository = self._parse_repository_url(repository_url)
 
-        response = self._request(
-            f"{self.GITHUB_API}/{owner}/{repository}"
-        )
+        response = self._request(f"{self.GITHUB_API}/{owner}/{repository}")
 
         data = response.json()
 
         license_info = data.get("license")
 
-        default_branch = data.get(
-            "default_branch"
-        )
+        default_branch = data.get("default_branch")
 
         return RepositoryMetadata(
             name=data["name"],
@@ -105,54 +95,35 @@ class GitHubCollector(RepositoryCollector):
             url=data["html_url"],
             description=data.get("description"),
             default_branch=default_branch,
-
-            license=(
-                license_info["spdx_id"]
-                if license_info
-                else None
-            ),
-
+            license=(license_info["spdx_id"] if license_info else None),
             language=data.get("language"),
-
             stars=data.get(
                 "stargazers_count",
                 0,
             ),
-
             forks=data.get(
                 "forks_count",
                 0,
             ),
-
             watchers=data.get(
                 "subscribers_count",
                 0,
             ),
-
             open_issues=data.get(
                 "open_issues_count",
                 0,
             ),
-
             archived=data.get(
                 "archived",
                 False,
             ),
-
-            last_push=data.get(
-                "pushed_at"
-            ),
-
-            last_update=data.get(
-                "updated_at"
-            ),
-
+            last_push=data.get("pushed_at"),
+            last_update=data.get("updated_at"),
             default_branch_protected=self._branch_protected(
                 owner,
                 repository,
                 default_branch,
             ),
-
             has_contributing_guide=self._find_file(
                 owner,
                 repository,
@@ -160,7 +131,6 @@ class GitHubCollector(RepositoryCollector):
                 "CONTRIBUTING",
                 "docs/CONTRIBUTING.md",
             ),
-
             has_code_of_conduct=self._find_file(
                 owner,
                 repository,
@@ -168,7 +138,6 @@ class GitHubCollector(RepositoryCollector):
                 "CODE_OF_CONDUCT",
                 ".github/CODE_OF_CONDUCT.md",
             ),
-
             has_security_policy=self._find_file(
                 owner,
                 repository,
@@ -176,13 +145,11 @@ class GitHubCollector(RepositoryCollector):
                 "SECURITY",
                 ".github/SECURITY.md",
             ),
-
             has_issue_templates=self._directory_exists(
                 owner,
                 repository,
                 ".github/ISSUE_TEMPLATE",
             ),
-
             has_pull_request_template=self._find_file(
                 owner,
                 repository,
@@ -193,6 +160,7 @@ class GitHubCollector(RepositoryCollector):
         )
 
         # ------------------------------------------------------------------
+
     # Issues
     # ------------------------------------------------------------------
 
@@ -204,18 +172,13 @@ class GitHubCollector(RepositoryCollector):
         Collect open GitHub issues.
         """
 
-        owner, repository = self._parse_repository_url(
-            repository_url
-        )
+        owner, repository = self._parse_repository_url(repository_url)
 
-        response = self._request(
-            f"{self.GITHUB_API}/{owner}/{repository}/issues"
-        )
+        response = self._request(f"{self.GITHUB_API}/{owner}/{repository}/issues")
 
         issues: list[IssueMetadata] = []
 
         for item in response.json():
-
             # Ignore pull requests
 
             if "pull_request" in item:
@@ -226,13 +189,7 @@ class GitHubCollector(RepositoryCollector):
                     number=item["number"],
                     title=item["title"],
                     url=item["html_url"],
-                    labels=[
-                        label["name"]
-                        for label in item.get(
-                            "labels",
-                            []
-                        )
-                    ],
+                    labels=[label["name"] for label in item.get("labels", [])],
                     state=item["state"],
                 )
             )
@@ -251,22 +208,16 @@ class GitHubCollector(RepositoryCollector):
         Collect the repository README.
         """
 
-        owner, repository = self._parse_repository_url(
-            repository_url
-        )
+        owner, repository = self._parse_repository_url(repository_url)
 
-        response = self._request(
-            f"{self.GITHUB_API}/{owner}/{repository}/readme"
-        )
+        response = self._request(f"{self.GITHUB_API}/{owner}/{repository}/readme")
 
         encoded = response.json().get("content")
 
         if not encoded:
             return ""
 
-        return base64.b64decode(
-            encoded
-        ).decode(
+        return base64.b64decode(encoded).decode(
             "utf-8",
             errors="ignore",
         )
@@ -332,19 +283,13 @@ class GitHubCollector(RepositoryCollector):
             return True
 
         try:
+            self._request(f"{self.GITHUB_API}/{owner}/{repository}/contents/{path}")
 
-            self._request(
-                f"{self.GITHUB_API}/{owner}/{repository}/contents/{path}"
-            )
-
-            self._contents_cache[cache_key].add(
-                path
-            )
+            self._contents_cache[cache_key].add(path)
 
             return True
 
         except httpx.HTTPStatusError:
-
             return False
 
     def _branch_protected(
@@ -361,7 +306,6 @@ class GitHubCollector(RepositoryCollector):
             return False
 
         try:
-
             response = self._request(
                 f"{self.GITHUB_API}/{owner}/{repository}/branches/{branch}"
             )
@@ -372,14 +316,13 @@ class GitHubCollector(RepositoryCollector):
             )
 
         except httpx.HTTPStatusError:
-
             return False
-        
+
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
 
-       # ------------------------------------------------------------------
+    # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
 
@@ -391,24 +334,19 @@ class GitHubCollector(RepositoryCollector):
         Extract the repository owner and name from a GitHub URL.
         """
 
-        parsed = urlparse(
-            repository_url.strip()
-        )
+        parsed = urlparse(repository_url.strip())
 
         if parsed.netloc not in (
             "github.com",
             "www.github.com",
         ):
-            raise ValueError(
-                "Only GitHub repositories are currently supported."
-            )
+            raise ValueError("Only GitHub repositories are currently supported.")
 
         parts = parsed.path.strip("/").split("/")
 
         if len(parts) < 2:
             raise ValueError(
-                "Expected URL format: "
-                "'https://github.com/<owner>/<repository>'."
+                "Expected URL format: 'https://github.com/<owner>/<repository>'."
             )
 
         owner = parts[0]

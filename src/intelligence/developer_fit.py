@@ -38,9 +38,7 @@ class DeveloperFitAnalyzer:
         if repository.stars >= 10000:
             experience_level = "Intermediate to Advanced"
 
-            reasons.append(
-                "Large community adoption indicates a mature project."
-            )
+            reasons.append("Large community adoption indicates a mature project.")
 
         elif repository.stars >= 1000:
             experience_level = "Intermediate"
@@ -61,9 +59,7 @@ class DeveloperFitAnalyzer:
         # ---------------------------------------------------------
 
         if documentation.has_contributing_guide:
-            reasons.append(
-                "Contribution guidelines improve contributor onboarding."
-            )
+            reasons.append("Contribution guidelines improve contributor onboarding.")
         else:
             reasons.append(
                 "Missing contribution documentation may increase onboarding difficulty."
@@ -95,9 +91,7 @@ class DeveloperFitAnalyzer:
         )
 
         if repository.open_issues > 0:
-            recommended_contributions.append(
-                "Review and resolve open issues"
-            )
+            recommended_contributions.append("Review and resolve open issues")
 
         return DeveloperFit(
             experience_level=experience_level,

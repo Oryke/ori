@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 # Analysis Metadata
 # ---------------------------------------------------------------------
 
+
 @dataclass(slots=True)
 class AnalysisMetadata:
     """
@@ -20,12 +21,13 @@ class AnalysisMetadata:
 
     generated_at: str = ""
 
-    analyzer_version: str = "0.1.0"
+    analyzer_version: str = "1.0.0"
 
 
 # ---------------------------------------------------------------------
 # Repository Health
 # ---------------------------------------------------------------------
+
 
 @dataclass(slots=True)
 class HealthDimension:
@@ -48,9 +50,7 @@ class RepositoryHealth:
 
     overall_rating: str
 
-    overall_reasons: list[str] = field(
-        default_factory=list
-    )
+    overall_reasons: list[str] = field(default_factory=list)
 
     community: HealthDimension | None = None
 
@@ -62,6 +62,7 @@ class RepositoryHealth:
 # ---------------------------------------------------------------------
 # Repository Documentation
 # ---------------------------------------------------------------------
+
 
 @dataclass(slots=True)
 class RepositoryDocumentation:
@@ -84,6 +85,7 @@ class RepositoryDocumentation:
 # Repository Risk
 # ---------------------------------------------------------------------
 
+
 @dataclass(slots=True)
 class RepositoryRisk:
     """
@@ -93,13 +95,9 @@ class RepositoryRisk:
     score: int
     level: str
 
-    reasons: list[str] = field(
-        default_factory=list
-    )
+    reasons: list[str] = field(default_factory=list)
 
-    warnings: list[str] = field(
-        default_factory=list
-    )
+    warnings: list[str] = field(default_factory=list)
 
     recommendation: str = ""
 
@@ -107,6 +105,7 @@ class RepositoryRisk:
 # ---------------------------------------------------------------------
 # Repository Skills
 # ---------------------------------------------------------------------
+
 
 @dataclass(slots=True)
 class SkillProfile:
@@ -119,26 +118,19 @@ class SkillProfile:
 
     difficulty: str = "Unknown"
 
-    required_skills: list[str] = field(
-        default_factory=list
-    )
+    required_skills: list[str] = field(default_factory=list)
 
-    recommended_tools: list[str] = field(
-        default_factory=list
-    )
+    recommended_tools: list[str] = field(default_factory=list)
 
-    frameworks: list[str] = field(
-        default_factory=list
-    )
+    frameworks: list[str] = field(default_factory=list)
 
-    reasons: list[str] = field(
-        default_factory=list
-    )
+    reasons: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------
 # Developer Fit
 # ---------------------------------------------------------------------
+
 
 @dataclass(slots=True)
 class DeveloperFit:
@@ -156,22 +148,17 @@ class DeveloperFit:
 
     confidence: int = 0
 
-    recommended_skills: list[str] = field(
-        default_factory=list
-    )
+    recommended_skills: list[str] = field(default_factory=list)
 
-    recommended_contributions: list[str] = field(
-        default_factory=list
-    )
+    recommended_contributions: list[str] = field(default_factory=list)
 
-    reasons: list[str] = field(
-        default_factory=list
-    )
+    reasons: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------
 # Contributor Roadmap
 # ---------------------------------------------------------------------
+
 
 @dataclass(slots=True)
 class ContributorRoadmap:
@@ -187,22 +174,17 @@ class ContributorRoadmap:
 
     recommended_focus: str = ""
 
-    next_steps: list[str] = field(
-        default_factory=list
-    )
+    next_steps: list[str] = field(default_factory=list)
 
-    contribution_opportunities: list[str] = field(
-        default_factory=list
-    )
+    contribution_opportunities: list[str] = field(default_factory=list)
 
-    reasons: list[str] = field(
-        default_factory=list
-    )
+    reasons: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------
 # Repository Evaluation
 # ---------------------------------------------------------------------
+
 
 @dataclass(slots=True)
 class RepositoryEvaluation:
@@ -214,27 +196,17 @@ class RepositoryEvaluation:
 
     overall_rating: str
 
-    metadata: AnalysisMetadata = field(
-        default_factory=AnalysisMetadata
-    )
+    metadata: AnalysisMetadata = field(default_factory=AnalysisMetadata)
 
     confidence: int = 0
 
-    strengths: list[str] = field(
-        default_factory=list
-    )
+    strengths: list[str] = field(default_factory=list)
 
-    weaknesses: list[str] = field(
-        default_factory=list
-    )
+    weaknesses: list[str] = field(default_factory=list)
 
-    recommended_for: list[str] = field(
-        default_factory=list
-    )
+    recommended_for: list[str] = field(default_factory=list)
 
-    insights: list[str] = field(
-        default_factory=list
-    )
+    insights: list[str] = field(default_factory=list)
 
     health: RepositoryHealth | None = None
 

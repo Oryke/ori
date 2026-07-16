@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ori"
-version = "0.1.0"
+version = "1.0.0"
 description = "Repository Intelligence for understanding software repositories."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -19,11 +19,11 @@ keywords = [
     "software-engineering",
     "knowledge-management",
     "open-source",
-    "documentation"
+    "documentation",
 ]
 
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
@@ -39,6 +39,7 @@ dependencies = [
 dev = [
     "pytest>=8.4.0",
     "pytest-mock>=3.14.0",
+    "ruff>=0.12.0",
 ]
 
 [project.urls]
@@ -47,7 +48,15 @@ Repository = "https://github.com/Oryke/ori"
 Issues = "https://github.com/Oryke/ori/issues"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"

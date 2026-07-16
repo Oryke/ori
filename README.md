@@ -4,73 +4,256 @@
   <img src="./assets/preview.png" alt="ORI Preview" width="900">
 </p>
 
-> The intelligence layer for open source.
+> **The intelligence layer for open source.**
 
-ORI is an open-source initiative exploring how repository intelligence can improve the way software communities are built, maintained, and sustained.
+ORI (**Open Repository Intelligence**) is an open-source project that analyzes public GitHub repositories and transforms repository data into actionable intelligence for developers, contributors, maintainers, and open-source communities.
 
-The project is currently in its research and design phase. During this stage, the focus is on understanding the challenges faced by maintainers, contributors, sponsors, and open-source communities before implementing solutions.
-
-Our goal is to build tools that help projects become healthier, easier to contribute to, and more sustainable over time.
+Rather than manually inspecting repository activity, documentation, governance, and contribution readiness, ORI provides a structured assessment that helps developers quickly understand a project's quality, maturity, and contribution potential.
 
 ---
 
-## Why ORI Exists
+# Why ORI Exists
 
-Modern software development has powerful tools for writing, testing, and deploying code.
+Modern software development has excellent tools for writing, testing, and deploying code.
 
-Open-source communities, however, still struggle with challenges that software alone has not fully addressed.
+Open-source communities, however, still face challenges that traditional development tools do not solve.
 
-Maintainers experience burnout.
+- Maintainers experience burnout.
+- New contributors struggle to find where to begin.
+- Documentation becomes outdated.
+- Healthy repositories are difficult to distinguish from abandoned ones.
+- Developers spend significant time evaluating projects before contributing.
 
-New contributors struggle to get started.
-
-Documentation becomes outdated.
-
-Important decisions are forgotten.
-
-Healthy projects become difficult to distinguish from abandoned ones.
-
-ORI exists to explore how repository intelligence can help solve these challenges.
+ORI exists to make repository evaluation easier by turning repository data into meaningful intelligence that supports better contribution decisions.
 
 ---
 
-## Current Status
+# Features
 
-ORI is currently in the research and planning phase.
+The current version of ORI includes:
 
-Current priorities include:
-
-- Researching challenges faced by open-source communities
-- Defining repository intelligence
-- Identifying measurable indicators of project health
-- Designing the first ORI prototype
-
-No production code has been released yet.
-
----
-
-## Roadmap
-
-The roadmap will evolve as research progresses.
-
-The initial areas of exploration include:
-
-- Repository health
-- Community insights
-- Contributor experience
-- Institutional memory
-- Sustainable open-source ecosystems
+- Repository metadata collection
+- Repository health analysis
+- Documentation quality assessment
+- Repository risk evaluation
+- Contributor skill profiling
+- Developer fit analysis
+- Personalized contribution roadmap generation
+- Overall repository evaluation and scoring
+- Repository insights and recommendations
+- Open issue discovery
+- Human-readable terminal reports
 
 ---
 
-## Contributing
+# Installation
 
-ORI is still in its early stages.
+Clone the repository:
 
-As the project matures, contribution guidelines, discussions, and design documents will be added to help the community participate in its development.
+```bash
+git clone https://github.com/Oryke/Ori.git
+cd ori
+```
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+Linux / macOS
+
+```bash
+source .venv/bin/activate
+```
+
+Install the project dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-## License
+# Usage
 
-To be determined.
+Run ORI from the command line:
+
+```bash
+python -m ori.cli
+```
+
+When prompted, enter a public GitHub repository URL:
+
+```text
+https://github.com/psf/requests
+```
+
+ORI will generate an intelligence report containing:
+
+- Repository Summary
+- Repository Statistics
+- Repository Health
+- Documentation Analysis
+- Repository Risk
+- Developer Skills
+- Developer Fit
+- Contribution Roadmap
+- Repository Evaluation
+- Insights
+- Recommendations
+- Open Issues
+
+---
+
+# Example Output
+
+```text
+Repository: psf/requests
+
+Overall Score: 89/100
+Overall Rating: ★★★★☆ Good
+
+Strengths
+✓ Repository demonstrates strong overall health.
+✓ Installation instructions are available.
+✓ Usage examples are provided.
+
+Weaknesses
+• Repository has no contribution guide.
+
+Recommended For
+✓ Production use
+✓ Learning
+✓ Open-source contribution
+```
+
+---
+
+# Project Architecture
+
+```
+                GitHub Repository
+                        │
+                        ▼
+              Repository Collectors
+                        │
+                        ▼
+             Repository Intelligence
+        ┌────────────────────────────┐
+        │ Repository Analyzer        │
+        │ Health Engine              │
+        │ Documentation Analyzer     │
+        │ Risk Analyzer              │
+        │ Skill Analyzer             │
+        │ Developer Fit Analyzer     │
+        │ Roadmap Generator          │
+        └────────────────────────────┘
+                        │
+                        ▼
+             Repository Evaluator
+                        │
+                        ▼
+              Repository Reporter
+                        │
+                        ▼
+                 CLI Intelligence Report
+```
+
+---
+
+# Project Structure
+
+```
+ORI/
+│
+├── src/
+│   ├── collector/
+│   ├── intelligence/
+│   └── ori/
+│
+├── tests/
+│
+├── assets/
+│
+├── README.md
+├── pyproject.toml
+├── requirements.txt
+└── LICENSE
+```
+
+---
+
+# Running Tests
+
+Run the complete test suite:
+
+```bash
+pytest
+```
+
+Format the project:
+
+```bash
+ruff format .
+```
+
+Run static analysis:
+
+```bash
+ruff check .
+```
+
+---
+
+# Current Status
+
+ORI is currently an actively developed prototype.
+
+The project already provides a complete command-line workflow for collecting repository information, generating repository intelligence, evaluating contribution readiness, and producing structured reports.
+
+Future releases will continue expanding ORI's intelligence capabilities and reporting features.
+
+---
+
+# Roadmap
+
+Planned improvements include:
+
+- Markdown report export
+- JSON report export
+- HTML report generation
+- Repository comparison
+- Historical repository tracking
+- GitHub Actions integration
+- GitLab repository support
+- Additional intelligence engines
+- Expanded automated test coverage
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+Whether you're interested in repository analysis, intelligence engines, testing, documentation, or improving the developer experience, we'd love your contributions.
+
+If you'd like to contribute:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Add or update tests where appropriate.
+5. Submit a pull request.
+
+---
+
+# License
+
+This project is licensed under the MIT License.
