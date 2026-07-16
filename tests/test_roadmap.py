@@ -4,7 +4,6 @@ Tests for the Roadmap Analyzer.
 
 from collector.types import RepositoryMetadata
 from intelligence.models import (
-    ContributorRoadmap,
     DeveloperFit,
     RepositoryDocumentation,
     RepositoryHealth,
