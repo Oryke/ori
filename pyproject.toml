@@ -3,10 +3,10 @@ requires = ["setuptools>=69.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ori"
+name = "orion-repository-intelligence"
 version = "1.1.0"
 
-description = "ORION (Open Repository Intelligence & Onboarding Navigator) — Repository intelligence for understanding and evaluating open-source software repositories."
+description = "ORION (Open Repository Intelligence & Onboarding Navigator) - Repository intelligence for understanding and evaluating open-source software repositories."
 
 readme = "README.md"
 requires-python = ">=3.11"
