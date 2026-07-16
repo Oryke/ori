@@ -18,7 +18,7 @@ def main() -> None:
     parser.add_argument(
         "--version",
         action="version",
-        version="ORI 1.0.0",
+        version="ORI 1.1.0",
     )
 
     subparsers = parser.add_subparsers(

@@ -4,8 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ori"
-version = "1.0.0"
-description = "Repository Intelligence for understanding software repositories."
+version = "1.1.0"
+
+description = "ORION (Open Repository Intelligence & Onboarding Navigator) — Repository intelligence for understanding and evaluating open-source software repositories."
+
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -15,20 +17,33 @@ authors = [
 ]
 
 keywords = [
+    "orion",
+    "ori",
     "repository-intelligence",
-    "software-engineering",
-    "knowledge-management",
+    "repository-analysis",
+    "github",
+    "github-api",
     "open-source",
-    "documentation",
+    "developer-tools",
+    "contributor-onboarding",
+    "software-engineering",
+    "cli",
+    "python",
 ]
 
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Utilities",
 ]
 
 dependencies = [

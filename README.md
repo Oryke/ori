@@ -1,259 +1,208 @@
-# ORI
+# 🚀 ORION
 
-<p align="center">
-  <img src="./assets/preview.png" alt="ORI Preview" width="900">
-</p>
+> **Open Repository Intelligence & Onboarding Navigator**
 
-> **The intelligence layer for open source.**
+ORION is an open-source command-line tool that analyzes GitHub repositories and produces actionable intelligence to help developers understand a project before contributing.
 
-ORI (**Open Repository Intelligence**) is an open-source project that analyzes public GitHub repositories and transforms repository data into actionable intelligence for developers, contributors, maintainers, and open-source communities.
-
-Rather than manually inspecting repository activity, documentation, governance, and contribution readiness, ORI provides a structured assessment that helps developers quickly understand a project's quality, maturity, and contribution potential.
+Instead of spending hours exploring unfamiliar repositories, ORION summarizes repository health, governance, documentation quality, contributor readiness, risks, and onboarding recommendations in seconds.
 
 ---
 
-# Why ORI Exists
+## ✨ Features
 
-Modern software development has excellent tools for writing, testing, and deploying code.
-
-Open-source communities, however, still face challenges that traditional development tools do not solve.
-
-- Maintainers experience burnout.
-- New contributors struggle to find where to begin.
-- Documentation becomes outdated.
-- Healthy repositories are difficult to distinguish from abandoned ones.
-- Developers spend significant time evaluating projects before contributing.
-
-ORI exists to make repository evaluation easier by turning repository data into meaningful intelligence that supports better contribution decisions.
-
----
-
-# Features
-
-The current version of ORI includes:
-
-- Repository metadata collection
-- Repository health analysis
-- Documentation quality assessment
-- Repository risk evaluation
-- Contributor skill profiling
-- Developer fit analysis
-- Personalized contribution roadmap generation
-- Overall repository evaluation and scoring
-- Repository insights and recommendations
-- Open issue discovery
-- Human-readable terminal reports
+- 📊 Repository evaluation and scoring
+- ❤️ Repository health assessment
+- 📚 Documentation analysis
+- ⚠️ Repository risk analysis
+- 🧑‍💻 Developer fit recommendations
+- 🛣️ Personalized contributor roadmap
+- 🛡️ Governance evaluation
+- 🧠 Skills identification
+- 📦 Clean modular CLI
+- ✅ Comprehensive automated tests
 
 ---
 
-# Installation
+## 📦 Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/Oryke/Ori.git
+git clone https://github.com/Oryke/ori.git
 cd ori
 ```
 
-Create and activate a virtual environment:
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Windows
+Activate it.
+
+Windows:
 
 ```bash
 .venv\Scripts\activate
 ```
 
-Linux / macOS
+Linux/macOS:
 
 ```bash
 source .venv/bin/activate
 ```
 
-Install the project dependencies:
+Install ORION:
 
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ---
 
-# Usage
+## 🚀 Usage
 
-Run ORI from the command line:
+Analyze a repository:
 
 ```bash
-python -m ori.cli
+python -m ori.cli analyze https://github.com/owner/repository
 ```
 
-When prompted, enter a public GitHub repository URL:
+Repository health:
 
-```text
-https://github.com/psf/requests
+```bash
+python -m ori.cli health https://github.com/owner/repository
 ```
 
-ORI will generate an intelligence report containing:
+Risk analysis:
 
-- Repository Summary
-- Repository Statistics
-- Repository Health
-- Documentation Analysis
-- Repository Risk
-- Developer Skills
-- Developer Fit
-- Contribution Roadmap
-- Repository Evaluation
-- Insights
-- Recommendations
-- Open Issues
+```bash
+python -m ori.cli risk https://github.com/owner/repository
+```
+
+Contributor roadmap:
+
+```bash
+python -m ori.cli roadmap https://github.com/owner/repository
+```
 
 ---
 
-# Example Output
+## 📋 Example Output
 
 ```text
-Repository: psf/requests
+ORI Analysis
+========================================
 
-Overall Score: 89/100
-Overall Rating: ★★★★☆ Good
+Repository: Oryke/ori
+
+Overall Score: 72/100
+
+Overall Rating: ★★★☆☆ Fair
 
 Strengths
-✓ Repository demonstrates strong overall health.
-✓ Installation instructions are available.
-✓ Usage examples are provided.
 
-Weaknesses
-• Repository has no contribution guide.
+✓ Repository includes a README
+✓ Installation instructions available
+✓ Contribution guidelines detected
 
-Recommended For
-✓ Production use
-✓ Learning
-✓ Open-source contribution
+Advice
+
+- Recommended skill: Python
+- Target the main branch
+- Read the README before contributing
 ```
 
 ---
 
-# Project Architecture
+## 🏗️ Project Structure
 
 ```
-                GitHub Repository
-                        │
-                        ▼
-              Repository Collectors
-                        │
-                        ▼
-             Repository Intelligence
-        ┌────────────────────────────┐
-        │ Repository Analyzer        │
-        │ Health Engine              │
-        │ Documentation Analyzer     │
-        │ Risk Analyzer              │
-        │ Skill Analyzer             │
-        │ Developer Fit Analyzer     │
-        │ Roadmap Generator          │
-        └────────────────────────────┘
-                        │
-                        ▼
-             Repository Evaluator
-                        │
-                        ▼
-              Repository Reporter
-                        │
-                        ▼
-                 CLI Intelligence Report
+src/
+├── collector/
+├── intelligence/
+├── reporter.py
+├── commands/
+│   ├── analyze.py
+│   ├── health.py
+│   ├── risk.py
+│   └── roadmap.py
+└── cli.py
 ```
 
 ---
 
-# Project Structure
-
-```
-ORI/
-│
-├── src/
-│   ├── collector/
-│   ├── intelligence/
-│   └── ori/
-│
-├── tests/
-│
-├── assets/
-│
-├── README.md
-├── pyproject.toml
-├── requirements.txt
-└── LICENSE
-```
-
----
-
-# Running Tests
-
-Run the complete test suite:
+## 🧪 Running Tests
 
 ```bash
 pytest
 ```
 
-Format the project:
-
-```bash
-ruff format .
-```
-
-Run static analysis:
-
-```bash
-ruff check .
-```
-
 ---
 
-# Current Status
+## 🛣️ Roadmap
 
-ORI is currently an actively developed prototype.
+### Current
 
-The project already provides a complete command-line workflow for collecting repository information, generating repository intelligence, evaluating contribution readiness, and producing structured reports.
+- Repository analysis
+- Health evaluation
+- Risk assessment
+- Documentation analysis
+- Developer fit
+- Contributor roadmap
+- Governance analysis
 
-Future releases will continue expanding ORI's intelligence capabilities and reporting features.
+### Planned
 
----
-
-# Roadmap
-
-Planned improvements include:
-
-- Markdown report export
-- JSON report export
-- HTML report generation
+- Skills command
+- Documentation command
 - Repository comparison
-- Historical repository tracking
-- GitHub Actions integration
-- GitLab repository support
-- Additional intelligence engines
-- Expanded automated test coverage
+- AI-powered onboarding assistant
+- Repository architecture explanation
+- PyPI release
 
 ---
 
-# Contributing
+## 🤝 Contributing
 
 Contributions are welcome.
 
-Whether you're interested in repository analysis, intelligence engines, testing, documentation, or improving the developer experience, we'd love your contributions.
-
-If you'd like to contribute:
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Make your changes.
-4. Add or update tests where appropriate.
-5. Submit a pull request.
+Please read the project's **CONTRIBUTING.md** before opening an issue or submitting a pull request.
 
 ---
 
-# License
+## 🔒 Security
+
+If you discover a security issue, please follow the instructions in **SECURITY.md**.
+
+---
+
+## 📄 License
 
 This project is licensed under the MIT License.
+
+See **LICENSE** for details.
+
+---
+
+## 👩‍💻 Author
+
+**Cynthia Palmata Oke**
+
+GitHub: https://github.com/Oryke
+
+---
+
+## 🌟 Vision
+
+ORION aims to become the intelligent onboarding companion for open-source software.
+
+Rather than simply inspecting repositories, ORION's long-term vision is to help developers answer questions like:
+
+- Is this repository suitable for my experience level?
+- Where should I begin contributing?
+- Which files should I read first?
+- What skills do I need?
+- What are the project's health and risks?
+
+By combining repository intelligence with onboarding guidance, ORION helps developers contribute with confidence.

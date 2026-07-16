@@ -21,7 +21,7 @@ class AnalysisMetadata:
 
     generated_at: str = ""
 
-    analyzer_version: str = "1.0.0"
+    analyzer_version: str = "1.1.0"
 
 
 # ---------------------------------------------------------------------
