@@ -47,6 +47,9 @@ Homepage = "https://github.com/Oryke/ori"
 Repository = "https://github.com/Oryke/ori"
 Issues = "https://github.com/Oryke/ori/issues"
 
+[project.scripts]
+ori = "ori.cli:main"
+
 [tool.setuptools]
 package-dir = { "" = "src" }
 

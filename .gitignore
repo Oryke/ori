@@ -8,10 +8,15 @@ __pycache__/
 # Test & lint caches
 .pytest_cache/
 .ruff_cache/
+.coverage
+
+# Build files
+*.egg-info/
+build/
+dist/
 
 # VS Code
 .vscode/
 
 # macOS
 .DS_Store
-.coverage

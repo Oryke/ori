@@ -4,6 +4,8 @@ ORI Command Line Interface.
 The primary entry point into ORI.
 """
 
+import argparse
+
 from collector.documentation import DocumentationCollector
 from collector.github import GitHubCollector
 
@@ -20,12 +22,13 @@ from intelligence.summarizer import RepositorySummarizer
 from ori.reporter import RepositoryReporter
 
 
-def main() -> None:
-    url = input("Repository URL: ")
+VERSION = "1.0.0"
 
-    # ---------------------------------------------------------------
-    # Collect Repository Data
-    # ---------------------------------------------------------------
+
+def analyze_repository(url: str) -> str:
+    """
+    Analyze a repository and generate an ORI report.
+    """
 
     collector = GitHubCollector()
     documentation_collector = DocumentationCollector()
@@ -34,47 +37,33 @@ def main() -> None:
     issues = collector.collect_issues(url)
     readme = documentation_collector.collect_readme(url)
 
-    # ---------------------------------------------------------------
-    # Intelligence Engines
-    # ---------------------------------------------------------------
-
     analyzer = RepositoryAnalyzer()
     insights = analyzer.analyze(repository)
 
     advisor = ContributorAdvisor()
     advice = advisor.advise(repository)
 
-    health_engine = RepositoryHealthEngine()
-    health = health_engine.evaluate(repository)
+    health = RepositoryHealthEngine().evaluate(repository)
 
-    documentation_analyzer = DocumentationAnalyzer()
-    documentation = documentation_analyzer.analyze(readme)
+    documentation = DocumentationAnalyzer().analyze(readme)
 
-    risk_analyzer = RepositoryRiskAnalyzer()
-
-    risk = risk_analyzer.evaluate(
+    risk = RepositoryRiskAnalyzer().evaluate(
         repository,
         documentation,
     )
 
-    skill_analyzer = SkillAnalyzer()
-
-    skills = skill_analyzer.analyze(
+    skills = SkillAnalyzer().analyze(
         repository,
         readme,
     )
 
-    developer_fit_analyzer = DeveloperFitAnalyzer()
-
-    developer_fit = developer_fit_analyzer.evaluate(
+    developer_fit = DeveloperFitAnalyzer().evaluate(
         repository,
         documentation,
         skills,
     )
 
-    roadmap_analyzer = RoadmapAnalyzer()
-
-    roadmap = roadmap_analyzer.generate(
+    roadmap = RoadmapAnalyzer().generate(
         repository,
         health,
         documentation,
@@ -83,9 +72,7 @@ def main() -> None:
         developer_fit,
     )
 
-    evaluator = RepositoryEvaluator()
-
-    evaluation = evaluator.evaluate(
+    evaluation = RepositoryEvaluator().evaluate(
         health=health,
         documentation=documentation,
         risk=risk,
@@ -94,12 +81,9 @@ def main() -> None:
         roadmap=roadmap,
     )
 
-    summarizer = RepositorySummarizer()
-    summary = summarizer.summarize(repository)
+    summary = RepositorySummarizer().summarize(repository)
 
-    report_generator = RepositoryReporter()
-
-    report = report_generator.generate(
+    report = RepositoryReporter().generate(
         repository=repository,
         summary=summary,
         health=health,
@@ -113,6 +97,34 @@ def main() -> None:
         advice=advice,
         issues=issues,
     )
+
+    return report
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="ORI - Repository Intelligence Engine"
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"ORI {VERSION}",
+    )
+
+    parser.add_argument(
+        "repository",
+        nargs="?",
+        help="GitHub repository URL to analyze",
+    )
+
+    args = parser.parse_args()
+
+    if not args.repository:
+        parser.print_help()
+        return
+
+    report = analyze_repository(args.repository)
 
     print(report)
 
