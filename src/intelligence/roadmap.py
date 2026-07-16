@@ -197,6 +197,6 @@ class RoadmapAnalyzer:
             current_stage=current_stage,
             recommended_focus=recommended_focus,
             next_steps=next_steps,
-            contribution_opportunities=(contribution_opportunities),
+            contribution_opportunities=contribution_opportunities,
             reasons=reasons,
         )
